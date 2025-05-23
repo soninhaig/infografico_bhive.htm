@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infográfico: Plano de Ação BHive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA; /* Light grey background */
+            color: #333333;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #118AB2, #06D6A0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .kpop-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width for readability */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 350px; /* Max height */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .flow-step {
+            background-color: #118AB2; /* Primary color */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #FFD166; /* Secondary color */
+            margin: 0 0.5rem;
+            line-height: 1;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2.5rem; /* Space for icon and line */
+        }
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 12px; /* Centered with the icon */
+            top: 28px; /* Start below icon */
+            bottom: 0;
+            width: 2px;
+            background-color: #118AB2; /* Primary color */
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #FFD166; /* Secondary color */
+            color: #118AB2; /* Primary color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .section-title-underline {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+        .section-title-underline::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50%;
+            height: 3px;
+            background-color: #FF6B6B; /* Accent color */
+        }
+        /* Chosen Palette: Energetic & Playful (adapted)
+           Primary: #118AB2 ( насыщенный синий)
+           Secondary: #FFD166 (Sunny Yellow)
+           Accent 1: #FF6B6B (Coral Pink)
+           Accent 2: #06D6A0 (Teal/Greenish)
+           Background: #F8F9FA
+           Card Background: white
+           Text: #333333
+        */
+        /* Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. All diagrams are HTML/CSS based. */
+        /* Narrative Plan Summary:
+          1. Hero: BHive Intro
+          2. About BHive: Niche (Empreendedoras + K-pop Fans)
+          3. Mission
+          4. Financial Goals (3-Year Bar Chart)
+          5. Strategic Pillars (Cards)
+          6. Product/Service Highlights (Cards)
+          7. Branding: "Eras" Concept (HTML/CSS Flow)
+          8. Customer Journey: "Trainee to Idol" (HTML/CSS Flow)
+          9. Community Building (Icon + Text)
+          10. Key Milestones (HTML/CSS Timeline)
+          11. Conclusion
+        */
+        /*
+          Visualization Choices Summary:
+          - Financial Goals (R$50k, R$150k, R$300k): Goal: Compare/Change. Chosen: Bar Chart (Chart.js). Justification: Clear comparison of targets over 3 years. NO SVG.
+          - Niche (Empreendedoras + K-pop): Goal: Inform. Chosen: Styled HTML text blocks. Justification: Simple, clear. NO SVG.
+          - Strategic Pillars: Goal: Organize. Chosen: HTML/CSS Cards. Justification: Clear separation. NO SVG.
+          - Product Examples: Goal: Inform. Chosen: HTML/CSS Cards with Unicode icons. Justification: Concise presentation. NO SVG.
+          - "Eras" Branding Concept: Goal: Organize/Change. Chosen: HTML/CSS Flow Diagram. Justification: Illustrates evolution. NO SVG.
+          - "Trainee to Idol" Customer Journey: Goal: Organize. Chosen: HTML/CSS Flow Diagram. Justification: Visualizes process. NO SVG.
+          - Community Initiatives: Goal: Inform. Chosen: HTML/CSS Icon + Text. Justification: Direct representation. NO SVG.
+          - Key Milestones Timeline: Goal: Change/Organize. Chosen: HTML/CSS Vertical Timeline. Justification: Shows progression. NO SVG.
+        */
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="py-12 bg-gradient-to-br from-[#118AB2] to-[#06D6A0] text-white text-center">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">BHive: Marketing Digital com Alma de Fandom!</h1>
+            <p class="text-xl md:text-2xl">Combinando a energia do K-pop com estratégias de marketing inovadoras para empreendedoras brasileiras.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 space-y-16">
+
+        <section id="about">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">O Que é a <span class="gradient-text">BHive</span>?</h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                A BHive é uma startup de marketing digital com uma proposta única: conectar o universo da cultura coreana (Hallyu), especialmente o K-pop, com o mundo do empreendedorismo feminino no Brasil. Nosso foco é atender empreendedoras que são fãs e buscam aplicar as vibrantes estratégias de engajamento e construção de comunidade do K-pop em seus próprios negócios.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="kpop-card p-6 text-center">
+                    <span class="text-5xl mb-4 block">🚀</span>
+                    <h3 class="text-2xl font-semibold text-[#118AB2] mb-2">Empreendedoras Visionárias</h3>
+                    <p class="text-gray-600">Apoiamos mulheres que buscam inovar e construir negócios com propósito e paixão.</p>
+                </div>
+                <div class="kpop-card p-6 text-center">
+                    <span class="text-5xl mb-4 block">🎤</span>
+                    <h3 class="text-2xl font-semibold text-[#FF6B6B] mb-2">Fãs da Cultura Coreana</h3>
+                    <p class="text-gray-600">Para quem entende o poder da Hallyu e quer traduzir essa energia em resultados.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="mission" class="text-center">
+            <h2 class="text-3xl font-bold mb-2 section-title-underline">Nossa <span class="gradient-text">Missão</span></h2>
+            <p class="text-xl text-gray-700 max-w-3xl mx-auto">
+                Ser a ponte entre a paixão pela cultura coreana e o sucesso no empreendedorismo, capacitando empreendedoras a construir marcas autênticas, comunidades engajadas e negócios prósperos, utilizando estratégias de marketing com a alma e a inteligência do K-pop.
+            </p>
+        </section>
+
+        <section id="financial-goals">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">Nossas Metas <span class="gradient-text">Financeiras (Visão 3 Anos)</span></h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                Temos um plano de crescimento claro, visando validar nosso modelo, escalar nossos produtos e consolidar nossa comunidade e ofertas digitais ao longo de três anos.
+            </p>
+            <div class="kpop-card p-6">
+                <div class="chart-container mx-auto">
+                    <canvas id="financialGoalsChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-600 mt-4 text-center">Este gráfico ilustra nossas metas de faturamento progressivas, demonstrando nosso compromisso com o crescimento sustentável e o impacto que planejamos gerar.</p>
+            </div>
+        </section>
+
+        <section id="pillars">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">Nossos Pilares <span class="gradient-text">Estratégicos</span></h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                Nosso sucesso se baseia em três pilares fundamentais, inspirados na dinâmica e inovação do universo K-pop.
+            </p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="kpop-card p-6 text-center">
+                    <span class="text-5xl mb-4 block text-[#118AB2]">💡</span>
+                    <h3 class="text-xl font-semibold mb-2">Desenvolvimento de Produtos Inovadores</h3>
+                    <p class="text-gray-600">Criação de serviços e ferramentas que traduzem a genialidade do K-pop em soluções práticas para negócios.</p>
+                </div>
+                <div class="kpop-card p-6 text-center">
+                    <span class="text-5xl mb-4 block text-[#06D6A0]">🎨</span>
+                    <h3 class="text-xl font-semibold mb-2">Branding com Identidade K-Pop</h3>
+                    <p class="text-gray-600">Construção de uma marca forte e adaptável, com "eras" que refletem evolução e engajamento constante.</p>
+                </div>
+                <div class="kpop-card p-6 text-center">
+                    <span class="text-5xl mb-4 block text-[#FFD166]">💖</span>
+                    <h3 class="text-xl font-semibold mb-2">Comunidade Engajada e Forte</h3>
+                    <p class="text-gray-600">Formação de um ecossistema de apoio e colaboração para empreendedoras "fangirls", o coração da BHive.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="products-services">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">Produtos & Serviços em <span class="gradient-text">Destaque</span></h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                Oferecemos soluções criativas e eficazes, desenhadas para impulsionar negócios com a energia contagiante da cultura coreana. Estes são alguns exemplos:
+            </p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="kpop-card p-6">
+                    <h3 class="text-xl font-semibold text-[#118AB2] mb-2">🐝 Plano Colmeia</h3>
+                    <p class="text-gray-600">Nosso programa de assinatura mensal com acesso a uma comunidade vibrante, conteúdos exclusivos e recursos essenciais para o crescimento do seu negócio.</p>
+                </div>
+                <div class="kpop-card p-6">
+                    <h3 class="text-xl font-semibold text-[#FF6B6B] mb-2">🎓 Curso "Fangirl to CEO"</h3>
+                    <p class="text-gray-600">Uma jornada de aprendizado que transforma a paixão de fã em mentalidade de CEO, aplicando a trajetória "trainee a idol" ao desenvolvimento de negócios digitais.</p>
+                </div>
+                <div class="kpop-card p-6">
+                    <h3 class="text-xl font-semibold text-[#06D6A0] mb-2">🗓️ Ferramenta "Comeback Planner"</h3>
+                    <p class="text-gray-600">Uma ferramenta digital exclusiva para planejar lançamentos e campanhas de marketing com a estrutura e o impacto dos "comebacks" do K-pop.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="branding-eras">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">Branding Único: O Conceito de <span class="gradient-text">"Eras"</span></h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                Inspiradas na indústria do K-pop, nossa identidade visual e narrativa de marca evoluem através de "Eras". Cada Era traz um novo conceito visual, temático e de comunicação, mantendo a essência da BHive enquanto surpreende e engaja nossa comunidade.
+            </p>
+            <div class="kpop-card p-8">
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flow-step">Era Inicial: Fundação</div>
+                    <div class="flow-arrow transform md:rotate-0 rotate-90">➔</div>
+                    <div class="flow-step bg-[#FF6B6B]">Nova Era: Expansão</div>
+                    <div class="flow-arrow transform md:rotate-0 rotate-90">➔</div>
+                    <div class="flow-step bg-[#06D6A0]">Próxima Era: Inovação</div>
+                    <div class="flow-arrow transform md:rotate-0 rotate-90">➔</div>
+                    <div class="flow-step bg-[#FFD166]">Futuras Eras...</div>
+                </div>
+                <p class="text-sm text-gray-600 mt-6 text-center">Este fluxo representa a natureza dinâmica do nosso branding, sempre se reinventando para manter a relevância e o frescor, assim como os grupos de K-pop favoritos.</p>
+            </div>
+        </section>
+
+        <section id="customer-journey">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">A Jornada da Cliente: De <span class="gradient-text">Trainee a Idol</span></h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                Nossa interação com as clientes é pensada como uma jornada de desenvolvimento, inspirada no caminho de um artista de K-pop: desde o aprendizado inicial (Trainee) até o estrelato e reconhecimento (Idol).
+            </p>
+            <div class="kpop-card p-8">
+                 <div class="flex flex-col md:flex-row justify-around items-center space-y-4 md:space-y-0">
+                    <div class="text-center">
+                        <div class="text-4xl mb-2">🌟</div>
+                        <div class="flow-step text-sm">Descoberta (Rookie)</div>
+                        <p class="text-xs mt-1 text-gray-500">Primeiro contato</p>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0 rotate-90 self-center">➔</div>
+                    <div class="text-center">
+                        <div class="text-4xl mb-2">📚</div>
+                        <div class="flow-step text-sm bg-[#FFD166] text-black">Engajamento (Trainee)</div>
+                        <p class="text-xs mt-1 text-gray-500">Aprendizado e comunidade</p>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0 rotate-90 self-center">➔</div>
+                     <div class="text-center">
+                        <div class="text-4xl mb-2">🚀</div>
+                        <div class="flow-step text-sm bg-[#FF6B6B]">Crescimento (Debut)</div>
+                        <p class="text-xs mt-1 text-gray-500">Implementação e primeiros resultados</p>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0 rotate-90 self-center">➔</div>
+                    <div class="text-center">
+                        <div class="text-4xl mb-2">🏆</div>
+                        <div class="flow-step text-sm bg-[#06D6A0]">Sucesso (Idol)</div>
+                        <p class="text-xs mt-1 text-gray-500">Reconhecimento e escalonamento</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mt-6 text-center">Cada etapa é desenhada para apoiar, inspirar e celebrar o progresso das empreendedoras em nossa colmeia.</p>
+            </div>
+        </section>
+
+        <section id="community">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">Construindo Nossa <span class="gradient-text">Comunidade</span></h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                A comunidade é o coração da BHive. Criamos espaços e iniciativas para conectar, apoiar e celebrar nossas empreendedoras fangirls.
+            </p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="kpop-card p-6 text-center">
+                    <div class="text-4xl text-[#118AB2] mb-3">👑</div>
+                    <h3 class="text-xl font-semibold mb-1">Embaixadoras "Bias"</h3>
+                    <p class="text-gray-600">Clientes de destaque que se tornam vozes da BHive, inspirando e guiando outras na comunidade.</p>
+                </div>
+                <div class="kpop-card p-6 text-center">
+                    <div class="text-4xl text-[#FF6B6B] mb-3">🎉</div>
+                    <h3 class="text-xl font-semibold mb-1">Eventos "BHive Fanmeet"</h3>
+                    <p class="text-gray-600">Encontros virtuais e presenciais para networking, aprendizado e celebração, no estilo dos fanmeets de K-pop.</p>
+                </div>
+                <div class="kpop-card p-6 text-center">
+                    <div class="text-4xl text-[#06D6A0] mb-3">🏠</div>
+                    <h3 class="text-xl font-semibold mb-1">Plataforma "Colmeia Hub"</h3>
+                    <p class="text-gray-600">Nosso espaço digital centralizado para comunidade, cursos, ferramentas e todos os recursos da BHive.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadmap">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title-underline">Roteiro para o <span class="gradient-text">Sucesso (Principais Marcos)</span></h2>
+            <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+                Nosso plano de 3 anos é ambicioso e focado em marcos chave para cada fase de crescimento.
+            </p>
+            <div class="kpop-card p-8">
+                <div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">1</div>
+                        <h3 class="text-xl font-semibold text-[#118AB2] mb-1">Ano 1: Validação do Modelo</h3>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2">
+                            <li>Lançamento dos pacotes de serviços iniciais e Plano Colmeia (beta).</li>
+                            <li>Estruturação da identidade visual "Eras" e comunidade online.</li>
+                            <li>Aquisição das primeiras 10 clientes pagantes e 20 assinantes.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">2</div>
+                        <h3 class="text-xl font-semibold text-[#FF6B6B] mb-1">Ano 2: Escalonamento</h3>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2">
+                            <li>Desenvolvimento de mentorias estruturadas e produtos digitais escaláveis (curso "Fangirl to CEO").</li>
+                            <li>Lançamento do programa de embaixadoras "Bias".</li>
+                            <li>Expansão do ticket médio e portfólio de produtos.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">3</div>
+                        <h3 class="text-xl font-semibold text-[#06D6A0] mb-1">Ano 3: Consolidação</h3>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2">
+                            <li>Lançamento da plataforma proprietária "Colmeia Hub".</li>
+                            <li>Implementação do programa de afiliados "Fandom Partners".</li>
+                            <li>Expansão para novos segmentos da cultura Hallyu e desenvolvimento de soluções de IA.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mt-6 text-center">Este é um resumo dos nossos principais objetivos. Cada ação é cuidadosamente planejada para construir uma base sólida para o futuro da BHive e de suas clientes.</p>
+            </div>
+        </section>
+
+        <section id="conclusion" class="text-center py-10 bg-gray-100 rounded-lg">
+            <h2 class="text-3xl font-bold mb-4 gradient-text">Junte-se à Colmeia!</h2>
+            <p class="text-xl text-gray-700 mb-6 max-w-2xl mx-auto">
+                A BHive é mais que uma agência de marketing. Somos uma comunidade, um movimento. Estamos prontas para ajudar você a transformar sua paixão pela cultura coreana em estratégias de negócio poderosas e resultados incríveis.
+            </p>
+            <a href="#" class="bg-gradient-to-r from-[#FF6B6B] to-[#FFD166] hover:from-[#FFD166] hover:to-[#FF6B6B] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-block">
+                Saiba Mais & Faça Parte!
+            </a>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 bg-[#118AB2] text-gray-200">
+        <p>&copy; <span id="currentYear"></span> BHive Marketing Digital. Todos os direitos reservados.</p>
+        <p class="text-sm">Conectando paixão e empreendedorismo com a força do K-pop.</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Helper function to wrap labels for Chart.js
+        function wrapLabels(label, maxWidth) {
+            const words = label.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            if (currentLine.length > 0) {
+                lines.push(currentLine.trim());
+            }
+            return lines.length > 0 ? lines : [label]; // Return original label if it's short or single word
+        }
+
+        const tooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            } else {
+              return label;
+            }
+        };
+
+        // Financial Goals Chart
+        const financialCtx = document.getElementById('financialGoalsChart').getContext('2d');
+        new Chart(financialCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabels('Ano 1: Validação', 16), 
+                    wrapLabels('Ano 2: Escalonamento', 16), 
+                    wrapLabels('Ano 3: Consolidação', 16)
+                ],
+                datasets: [{
+                    label: 'Meta de Faturamento (R$)',
+                    data: [50000, 150000, 300000],
+                    backgroundColor: [
+                        'rgba(255, 107, 107, 0.7)', // #FF6B6B Coral Pink
+                        'rgba(255, 209, 102, 0.7)', // #FFD166 Sunny Yellow
+                        'rgba(6, 214, 160, 0.7)'    // #06D6A0 Teal/Greenish
+                    ],
+                    borderColor: [
+                        'rgba(255, 107, 107, 1)',
+                        'rgba(255, 209, 102, 1)',
+                        'rgba(6, 214, 160, 1)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value / 1000 + 'k';
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
